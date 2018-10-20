@@ -2,7 +2,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sqlite3
 
-
 #UI 
 class SignUpForm(object):
     #sign up button method
@@ -14,7 +13,7 @@ class SignUpForm(object):
         print ("exit button clicked")
 
     #Form layout for responsive design
-    def setupUiLogIn(self, Form):
+    def setupUi(self, Form):
         #form
         Form.setObjectName("Form")
         Form.resize(513, 583)
@@ -146,17 +145,19 @@ class SignUpForm(object):
         self.btnEXIT.setStyleSheet("color: rgb(109, 109, 109);\n" "background-color: rgb(255, 255, 255);")
         self.btnEXIT.setFlat(True)
         self.btnEXIT.setObjectName("btnEXIT")
-        # exit button click event
+        #exit button click event
         self.btnEXIT.clicked.connect(self.close) 
         self.verticalLayout.addWidget(self.btnEXIT)
         self.verticalLayout_2.addLayout(self.verticalLayout)
 
+        #Form controls
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
+    #setting texts for UI elements
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
+        Form.setWindowTitle(_translate("Form", "Sign Up"))
         self.label.setText(_translate("Form", "Employee ID:"))
         self.label_2.setText(_translate("Form", "First Name:"))
         self.label_3.setText(_translate("Form", "Last Name:"))
@@ -171,6 +172,6 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     Form = QtWidgets.QWidget()
     ui = SignUpForm()
-    ui.setupUiLogIn(Form)
+    ui.setupUi(Form)
     Form.show()
     sys.exit(app.exec_())

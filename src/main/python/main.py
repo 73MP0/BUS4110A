@@ -13,19 +13,21 @@ class LogInForm(object):
             password = self.txtPW.text()
             result = conn.execute("SELECT * FROM Employee WHERE EmployeeID = ? AND Password = ?",(username,password))
             if(len(result.fetchall()) > 0):
+                #need to put succesful log in logic here
                 print("user found")
             else:
+                #need to alert the user that they are not in the system
                 print("user not found")
         except sqlite3.Error as e:
             print(e)
 
     # sign up page method which will route to the sign up page
     def signUpPage(self):
-        self.window = QtWidgets.QMainWindow()
+        self.window = QtWidgets.QWidget()
         self.ui = SignUpForm()
-        self.ui.setupUiLogIn(self.window)
+        self.ui.setupUi(self.window)
         self.window.show()
-        MainWindow.hide()
+        Form.close()
 
     #Form layout for responsive design, all objects are nested in this method
     def setupUi(self, Form):
@@ -115,7 +117,7 @@ class LogInForm(object):
         font.setWeight(75)
         self.btnLogIn.setFont(font)
         self.btnLogIn.setAutoFillBackground(False)
-        self.btnLogIn.setStyleSheet("color: rgb(255, 255, 255);\n" "background-color: rgb(109, 109 109);")
+        self.btnLogIn.setStyleSheet("color: rgb(255, 255, 255);\n" "background-color: rgb(109, 109, 109);")
         self.btnLogIn.setCheckable(False)
         self.btnLogIn.setAutoDefault(False)
         self.btnLogIn.setDefault(False)
@@ -136,15 +138,17 @@ class LogInForm(object):
         self.btnSignUp.setAutoFillBackground(False)
         self.btnSignUp.setStyleSheet("color: rgb(109, 109, 109);\n" "background-color: rgb(255, 255, 255)")
         self.btnSignUp.setFlat(True)
-        # button click event for sign up
-        self.btnSignUp.clicked.connect(self.signUpPage)  
         self.btnSignUp.setObjectName("btnSignUp")
         self.verticalLayout.addWidget(self.btnSignUp)
         self.verticalLayout_2.addLayout(self.verticalLayout)
+        # button click event for sign up
+        self.btnSignUp.clicked.connect(self.signUpPage)  
 
+        #Form configurations
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
+    #setting texts for UI elements
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Log In"))
@@ -153,7 +157,7 @@ class LogInForm(object):
         self.btnLogIn.setText(_translate("Form", "Log In"))
         self.btnSignUp.setText(_translate("Form", "Sign Up"))
 
-
+#main argument to launch the page
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
@@ -163,4 +167,3 @@ if __name__ == "__main__":
     ui.setupUi(Form)
     Form.show()
     sys.exit(app.exec_())
-
