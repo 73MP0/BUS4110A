@@ -16,11 +16,13 @@ class SignUpForm(object):
     def setupUi(self, Form):
         #form
         Form.setObjectName("Form")
-        Form.resize(513, 583)
+        Form.resize(480, 720)
+        Form.setAutoFillBackground(False)
         Form.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.5221, y1:0.568, x2:1, y2:1, stop:0 rgba(0, 170, 255, 255), stop:1 rgba(255, 255, 255, 255));")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.verticalLayout.setObjectName("verticalLayout")
         self.verticalLayout.setContentsMargins(50, 100, 50, 100)
 

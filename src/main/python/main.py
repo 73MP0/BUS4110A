@@ -32,7 +32,7 @@ class LogInForm(object):
     #Form layout for responsive design, all objects are nested in this method
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(359, 569)
+        Form.resize(480, 720)
         Form.setAutoFillBackground(False)
         Form.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.5221, y1:0.568, x2:1, y2:1, stop:0 rgba(0, 170, 255, 255), stop:1 rgba(255, 255, 255, 255));")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(Form)
