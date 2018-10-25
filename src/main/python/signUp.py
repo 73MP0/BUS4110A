@@ -7,6 +7,19 @@ class SignUpForm(object):
     #sign up button method
     def signUp(self):
         print ("sign up button clicked")
+        try:
+            conn = sqlite3.connect("OS_Employee.db")
+            EID = self.txtEID.text()
+            PW = self.txtPW.text()
+            FN = self.txtFname.text()
+            LN = self.txtLname.text()
+            EM = self.txtEmail.text()
+            if (EID):
+                print("successful")
+            else:
+                print("unsuccessful")
+        except sqlite3.Error as e:
+            print(e)
 
     #exit button method
     def close(self):

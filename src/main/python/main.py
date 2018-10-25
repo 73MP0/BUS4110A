@@ -9,11 +9,11 @@ class LogInForm(object):
     def loginCheck(self):
         try:
             conn = sqlite3.connect("OS_Employee.db")
-            username = self.txtEID.text()
-            password = self.txtPW.text()
-            result = conn.execute("SELECT * FROM Employee WHERE EmployeeID = ? AND Password = ?",(username,password))
-            if(len(result.fetchall()) > 0):
-                #need to put succesful log in logic here
+            EM = self.txtEM.text()
+            PW = self.txtPW.text()
+            result = conn.execute("SELECT * FROM Employee WHERE EMAIL = ? AND Password = ?",(EM,PW))
+            if(len(result.fetchall()) != 0):
+                #need to route to dashboard page
                 print("user found")
             else:
                 #need to alert the user that they are not in the system
@@ -58,21 +58,21 @@ class LogInForm(object):
         self.verticalLayout.addWidget(self.label)
 
         #Employee text box
-        self.txtEID = QtWidgets.QLineEdit(Form)
+        self.txtEM = QtWidgets.QLineEdit(Form)
         font = QtGui.QFont()
         font.setPointSize(18)
         font.setBold(True)
         font.setWeight(75)
-        self.txtEID.setFont(font)
-        self.txtEID.setAutoFillBackground(False)
-        self.txtEID.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.txtEID.setInputMask("")
-        self.txtEID.setText("")
-        self.txtEID.setAlignment(QtCore.Qt.AlignCenter)
-        self.txtEID.setClearButtonEnabled(True)
-        self.txtEID.setObjectName("txtEID")
-        self.txtEID.setMinimumSize(QtCore.QSize(0, 30))
-        self.verticalLayout.addWidget(self.txtEID)
+        self.txtEM.setFont(font)
+        self.txtEM.setAutoFillBackground(False)
+        self.txtEM.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.txtEM.setInputMask("")
+        self.txtEM.setText("")
+        self.txtEM.setAlignment(QtCore.Qt.AlignCenter)
+        self.txtEM.setClearButtonEnabled(True)
+        self.txtEM.setObjectName("txtEM")
+        self.txtEM.setMinimumSize(QtCore.QSize(0, 30))
+        self.verticalLayout.addWidget(self.txtEM)
 
         #label 2
         self.label_2 = QtWidgets.QLabel(Form)
