@@ -1,29 +1,52 @@
 #imported dependencies
+import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
+from logIn import LogInForm
 import sqlite3
 
 #UI 
 class SignUpForm(object):
+
     #sign up button method
     def signUp(self):
-        print ("sign up button clicked")
         try:
-            conn = sqlite3.connect("OS_Employee.db")
+            conn = sqlite3.connect("OS_Employee.db") 
+            #Text box variables
             EID = self.txtEID.text()
             PW = self.txtPW.text()
             FN = self.txtFname.text()
             LN = self.txtLname.text()
             EM = self.txtEmail.text()
-            if (EID):
-                print("successful")
-            else:
-                print("unsuccessful")
-        except sqlite3.Error as e:
-            print(e)
+            #SQL connection
+            conn.execute("INSERT INTO Employee VALUES(?,?,?,?,?)",(EID, FN, LN, EM, PW))
+            conn.commit()
+            conn.close()
+            #message box
+            self.showMessage("Success","Success! You've been added to the database.")
+            
+            '''
+                if (EID):
 
-    #exit button method
-    def close(self):
-        print ("exit button clicked")
+                else:
+                    print("unsuccessful")
+            '''
+        except sqlite3.Error as e:
+            self.showMessage("Error",e)
+        
+    #login button method
+    def login(self):
+            self.window = QtWidgets.QWidget()
+            self.ui = LogInForm()
+            self.ui.setupUi(self.window)
+            self.window.show()
+            Form.close()
+    #message box
+    def showMessage (self,title,message):
+        msgBox = QtWidgets.QMessageBox()
+        msgBox.setText(message)
+        msgBox.setWindowTitle(title)
+        msgBox.exec_()
 
     #Form layout for responsive design
     def setupUi(self, Form):
@@ -150,19 +173,19 @@ class SignUpForm(object):
         # button click event for sign up
         self.btnSignUp.clicked.connect(self.signUp) 
 
-        #exit button 
-        self.btnEXIT = QtWidgets.QPushButton(Form)
-        self.btnEXIT.setMinimumSize(QtCore.QSize(0, 50))
+        #Log In button 
+        self.btnLogIn = QtWidgets.QPushButton(Form)
+        self.btnLogIn.setMinimumSize(QtCore.QSize(0, 50))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(36)
-        self.btnEXIT.setFont(font)
-        self.btnEXIT.setStyleSheet("color: rgb(109, 109, 109);\n" "background-color: rgb(255, 255, 255);")
-        self.btnEXIT.setFlat(True)
-        self.btnEXIT.setObjectName("btnEXIT")
-        #exit button click event
-        self.btnEXIT.clicked.connect(self.close) 
-        self.verticalLayout.addWidget(self.btnEXIT)
+        self.btnLogIn.setFont(font)
+        self.btnLogIn.setStyleSheet("color: rgb(109, 109, 109);\n" "background-color: rgb(255, 255, 255);")
+        self.btnLogIn.setFlat(True)
+        self.btnLogIn.setObjectName("btnLogIn")
+        #Log In button click event
+        self.btnLogIn.clicked.connect(self.login) 
+        self.verticalLayout.addWidget(self.btnLogIn)
         self.verticalLayout_2.addLayout(self.verticalLayout)
 
         #Form controls
@@ -179,9 +202,9 @@ class SignUpForm(object):
         self.label_4.setText(_translate("Form", "E-mail:"))
         self.label_5.setText(_translate("Form", "Password"))
         self.btnSignUp.setText(_translate("Form", "Sign Up"))
-        self.btnEXIT.setText(_translate("Form", "Exit"))
+        self.btnLogIn.setText(_translate("Form", "Log In"))
 
-#main argument to launch the page
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

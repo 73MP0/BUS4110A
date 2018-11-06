@@ -1,10 +1,19 @@
 #imported dependencies
+import sys, PyQt5
 from PyQt5 import QtCore, QtGui, QtWidgets
-from signUp import SignUpForm
+from PyQt5.QtWidgets import QMessageBox
 import sqlite3
 
 #UI
 class LogInForm(object):
+
+    #message box
+    def showMessage (self,title,message):
+        msgBox = QtWidgets.QMessageBox()
+        msgBox.setText(message)
+        msgBox.setWindowTitle(title)
+        msgBox.exec_()
+
     # Login method
     def loginCheck(self):
         try:
@@ -14,20 +23,16 @@ class LogInForm(object):
             result = conn.execute("SELECT * FROM Employee WHERE EMAIL = ? AND Password = ?",(EM,PW))
             if(len(result.fetchall()) != 0):
                 #need to route to dashboard page
-                print("user found")
+                self.showMessage("Success","User found!")
             else:
-                #need to alert the user that they are not in the system
-                print("user not found")
+                self.showMessage("Failed","You are not a recognized user in the database, please sign up or exit the program")
         except sqlite3.Error as e:
-            print(e)
+            self.showMessage("Error",e)
 
     # sign up page method which will route to the sign up page
-    def signUpPage(self):
-        self.window = QtWidgets.QWidget()
-        self.ui = SignUpForm()
-        self.ui.setupUi(self.window)
-        self.window.show()
-        Form.close()
+    def exit(self):
+        app = QtWidgets.QApplication(sys.argv)
+        sys.exit(app.exec_())
 
     #Form layout for responsive design, all objects are nested in this method
     def setupUi(self, Form):
@@ -128,21 +133,21 @@ class LogInForm(object):
         self.btnLogIn.clicked.connect(self.loginCheck)          
 
         #sign up button                       
-        self.btnSignUp = QtWidgets.QPushButton(Form)
+        self.btnExit = QtWidgets.QPushButton(Form)
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(36)
         font.setBold(True)
         font.setWeight(75)
-        self.btnSignUp.setFont(font)
-        self.btnSignUp.setAutoFillBackground(False)
-        self.btnSignUp.setStyleSheet("color: rgb(109, 109, 109);\n" "background-color: rgb(255, 255, 255)")
-        self.btnSignUp.setFlat(True)
-        self.btnSignUp.setObjectName("btnSignUp")
-        self.verticalLayout.addWidget(self.btnSignUp)
+        self.btnExit.setFont(font)
+        self.btnExit.setAutoFillBackground(False)
+        self.btnExit.setStyleSheet("color: rgb(109, 109, 109);\n" "background-color: rgb(255, 255, 255)")
+        self.btnExit.setFlat(True)
+        self.btnExit.setObjectName("btnExit")
+        self.verticalLayout.addWidget(self.btnExit)
         self.verticalLayout_2.addLayout(self.verticalLayout)
         # button click event for sign up
-        self.btnSignUp.clicked.connect(self.signUpPage)  
+        self.btnExit.clicked.connect(self.exit)  
 
         #Form configurations
         self.retranslateUi(Form)
@@ -152,18 +157,7 @@ class LogInForm(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Log In"))
-        self.label.setText(_translate("Form", "Employee ID:"))
+        self.label.setText(_translate("Form", "E-mail:"))
         self.label_2.setText(_translate("Form", "Password:"))
         self.btnLogIn.setText(_translate("Form", "Log In"))
-        self.btnSignUp.setText(_translate("Form", "Sign Up"))
-
-#main argument to launch the page
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    Form = QtWidgets.QWidget()
-    ui = LogInForm()
-    ui.setupUi(Form)
-    Form.show()
-    sys.exit(app.exec_())
+        self.btnExit.setText(_translate("Form", "Exit"))
