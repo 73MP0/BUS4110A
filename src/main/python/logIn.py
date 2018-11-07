@@ -27,7 +27,7 @@ class LogInForm(object):
             else:
                 self.showMessage("Failed","You are not a recognized user in the database, please sign up or exit the program")
         except sqlite3.Error as e:
-            self.showMessage("Error",e)
+            self.showMessage("Error",str(e))
 
     # sign up page method which will route to the sign up page
     def exit(self):

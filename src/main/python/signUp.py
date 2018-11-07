@@ -6,7 +6,9 @@ from logIn import LogInForm
 import sqlite3
 
 #UI 
+
 class SignUpForm(object):
+    #
 
     #sign up button method
     def signUp(self):
@@ -24,15 +26,8 @@ class SignUpForm(object):
             conn.close()
             #message box
             self.showMessage("Success","Success! You've been added to the database.")
-            
-            '''
-                if (EID):
-
-                else:
-                    print("unsuccessful")
-            '''
         except sqlite3.Error as e:
-            self.showMessage("Error",e)
+            self.showMessage("Error",str(e))
         
     #login button method
     def login(self):
@@ -41,6 +36,7 @@ class SignUpForm(object):
             self.ui.setupUi(self.window)
             self.window.show()
             Form.close()
+
     #message box
     def showMessage (self,title,message):
         msgBox = QtWidgets.QMessageBox()
@@ -204,7 +200,7 @@ class SignUpForm(object):
         self.btnSignUp.setText(_translate("Form", "Sign Up"))
         self.btnLogIn.setText(_translate("Form", "Log In"))
 
-
+#initializing main page
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
