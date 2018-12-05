@@ -3,10 +3,10 @@ import sys, PyQt5
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 import sqlite3
+from analytics import Ui_analytics
 
 #UI
 class LogInForm(object):
-
     #message box
     def showMessage (self,title,message):
         msgBox = QtWidgets.QMessageBox()
@@ -16,6 +16,7 @@ class LogInForm(object):
 
     # Login method
     def loginCheck(self):
+        Form = QtWidgets.QWidget()
         try:
             conn = sqlite3.connect("OS_Employee.db")
             EM = self.txtEM.text()
@@ -24,6 +25,11 @@ class LogInForm(object):
             if(len(result.fetchall()) != 0):
                 #need to route to dashboard page
                 self.showMessage("Success","User found!")
+                self.window = QtWidgets.QWidget()
+                self.ui = Ui_analytics()
+                self.ui.setupUi(self.window)
+                self.window.show()
+                Form.close()
             else:
                 self.showMessage("Failed","You are not a recognized user in the database, please sign up or exit the program")
         except sqlite3.Error as e:
@@ -161,3 +167,4 @@ class LogInForm(object):
         self.label_2.setText(_translate("Form", "Password:"))
         self.btnLogIn.setText(_translate("Form", "Log In"))
         self.btnExit.setText(_translate("Form", "Exit"))
+

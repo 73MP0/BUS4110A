@@ -1,17 +1,38 @@
 #imported dependencies
 import sys
+import requests
+import sqlite3
+from email_validator import validate_email, EmailNotValidError
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 from logIn import LogInForm
-import sqlite3
 
 #UI 
-
 class SignUpForm(object):
-    #
-
     #sign up button method
     def signUp(self):
+        #Text box variables
+        EID = self.txtEID.text()
+        PW = self.txtPW.text()
+        FN = self.txtFname.text()
+        LN = self.txtLname.text()
+        EM = self.txtEmail.text()
+        #write to DB if all criterias met
+        if not EID or not PW or not FN or not LN or not EM:
+            self.showMessage("Error","all fields must be filled in")
+        elif len(EID) == 4 and EID.isdigit() and isinstance(FN, str) == True and PW and isinstance(LN,str) == True and EM:
+            self.EMCheck()
+
+    #login button method
+    def login(self):
+            self.window = QtWidgets.QWidget()
+            self.ui = LogInForm()
+            self.ui.setupUi(self.window)
+            self.window.show()
+            Form.close()
+    
+    #connection method
+    def dbConn (self):
         try:
             conn = sqlite3.connect("OS_Employee.db") 
             #Text box variables
@@ -28,15 +49,18 @@ class SignUpForm(object):
             self.showMessage("Success","Success! You've been added to the database.")
         except sqlite3.Error as e:
             self.showMessage("Error",str(e))
-        
-    #login button method
-    def login(self):
-            self.window = QtWidgets.QWidget()
-            self.ui = LogInForm()
-            self.ui.setupUi(self.window)
-            self.window.show()
-            Form.close()
-
+    
+    #email checker
+    def EMCheck(self):
+        EM = self.txtEmail.text()
+        if EM:
+            try:
+                v = validate_email(EM)
+                #EM = v["EM"] 
+                self.dbConn()
+            except EmailNotValidError as er:
+                self.showMessage("Error",str(er))
+    
     #message box
     def showMessage (self,title,message):
         msgBox = QtWidgets.QMessageBox()
